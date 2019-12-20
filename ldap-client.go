@@ -98,7 +98,7 @@ func (client *Client) Connect() error {
         } else {
             rootCA, err := x509.SystemCertPool()
             if err != nil {
-                return errors.New("Failed to load system cert: "+err)
+                return errors.New("Failed to load system cert: "+err.Error())
             }
             if rootCA == nil {
                 log.Printf("root ca is nil")
@@ -107,7 +107,7 @@ func (client *Client) Connect() error {
 
             ldapCert, err := ioutil.ReadFile("./certs/"+client.FileCert+".cer")
             if err != nil {
-                return errors.New("Failed to read ad cert: "+err)
+                return errors.New("Failed to read ad cert: "+err.Error())
             }
             ok := rootCA.AppendCertsFromPEM(ldapCert)
             if !ok {
@@ -414,7 +414,7 @@ func GenerateIsoDate(expirationTime int64) string {
     unixTime := (expirationTime - 116444736000000000) / 10000000
     tm := time.Unix(unixTime, 0)
     //fmt.Sprintf("%d-%02d-%d", tm.Year(), int(tm.Month()), tm.Day())
-    isoDate := strconv.Itoa(tm.Year())+"-"+strconv.Itoa(tm.Month())+"-"+strconv.Itoa(tm.Day())
+    isoDate := strconv.Itoa(tm.Year())+"-"+tm.Month()+"-"+strconv.Itoa(tm.Day())
     return isoDate
 }
 
