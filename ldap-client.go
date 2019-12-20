@@ -189,6 +189,8 @@ func (client *Client) Search(filter string, attr []string) ([]User, error) {
             SAMAccountName:     entry.GetAttributeValue("sAMAccountName"),
             SAMAccountType:     entry.GetAttributeValue("sAMAccountType"),
             UserPrincipalName:  entry.GetAttributeValue("userPrincipalName"),
+            Department:         entry.GetAttributeValue("department"),
+            MemberOf:           entry.GetAttributeValue("MemberOf"),
         }
 
         users = append(users, a)
@@ -268,6 +270,14 @@ func (client *Client) Add(user User) (string, error) {
             addRequest.Attribute("sAMAccountType", []string{user.SAMAccountType})
         }
 
+        if user.MemberOf != "" {
+            addRequest.Attribute("memberOf", []string{user.MemberOf})
+        }
+
+        if user.Department != "" {
+            addRequest.Attribute("department", []string{user.Department})
+        }
+
         if err := client.Conn.Add(addRequest); err != nil {
             return Error, errors.New("Agregar usuario falló" + err.Error())
         }
@@ -302,6 +312,18 @@ func (client *Client) Update(user User) (string, error) {
 
     if user.GivenName != "" {
         mr.Replace("givenName", []string{user.GivenName})
+    }
+
+    if user.Dn != "" {
+        mr.Replace("dn", []string{user.Dn})
+    }
+
+    if user.MemberOf != "" {
+        mr.Replace("memberOf", []string{user.MemberOf})
+    }
+
+    if user.Department != "" {
+        mr.Replace("department", []string{user.Department})
     }
 
     if user.DisplayName != "" {
