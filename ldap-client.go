@@ -61,6 +61,8 @@ type User struct {
     UserPrincipalName  string
     UserPassword       string
     UnicodePwd         string
+    Department         string
+    MemberOf           string
 }
 
 const (
