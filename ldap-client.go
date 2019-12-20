@@ -80,7 +80,7 @@ func (client *Client) Connect() error {
     if client.Conn == nil {
         var l *ldap.Conn
         var err error
-        address := client.Host+":"+client.Port
+        address := client.Host+":"+strconv.Itoa(client.Port)
 
         if !client.UseTLS {
             l, err = ldap.Dial("tcp", address)
@@ -414,7 +414,7 @@ func GenerateIsoDate(expirationTime int64) string {
     unixTime := (expirationTime - 116444736000000000) / 10000000
     tm := time.Unix(unixTime, 0)
     //fmt.Sprintf("%d-%02d-%d", tm.Year(), int(tm.Month()), tm.Day())
-    isoDate := tm.Year()+"-"+tm.Month()+"-"+tm.Day()
+    isoDate := strconv.Itoa(tm.Year())+"-"+strconv.Itoa(tm.Month())+"-"+strconv.Itoa(tm.Day())
     return isoDate
 }
 
