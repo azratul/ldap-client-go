@@ -414,7 +414,7 @@ func GenerateIsoDate(expirationTime int64) string {
     unixTime := (expirationTime - 116444736000000000) / 10000000
     tm := time.Unix(unixTime, 0)
     //fmt.Sprintf("%d-%02d-%d", tm.Year(), int(tm.Month()), tm.Day())
-    isoDate := strconv.Itoa(tm.Year())+"-"+tm.Month()+"-"+strconv.Itoa(tm.Day())
+    isoDate := strconv.Itoa(tm.Year())+"-"+strconv.Itoa(int(tm.Month()))+"-"+strconv.Itoa(tm.Day())
     return isoDate
 }
 
