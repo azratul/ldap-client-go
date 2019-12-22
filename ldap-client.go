@@ -201,7 +201,7 @@ func (client *Client) Search(filter string, attr []string) ([]User, error) {
 
 // Add : Función para crear una cuenta en Active Directory
 func (client *Client) Add(user User) (string, error) {
-    if user.Cn == "" && user.Group == "" {
+    if user.Cn == "" || user.Group == "" {
         return Error, errors.New("CN y Group son atributos obligatorios")
     }
 
@@ -210,7 +210,7 @@ func (client *Client) Add(user User) (string, error) {
     }
     defer client.Close()
 
-    userDn := "CN="+user.Cn+",CN="+user.Group+","+client.BaseDN
+    userDn := "CN="+user.Cn+",OU="+user.Group+","+client.BaseDN
 
     if exist, err := client.exist("(&(distinguishedName=" + userDn + "))"); err != nil {
         return Error, err
