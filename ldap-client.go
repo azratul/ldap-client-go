@@ -300,7 +300,7 @@ func (client *Client) Update(user User) (string, error) {
     }
     defer client.Close()
 
-    userDn := "CN="+user.Cn+",CN="+user.Group+","+client.BaseDN
+    userDn := "CN="+user.Cn+",OU="+user.Group+","+client.BaseDN
 
     if exist, err := client.exist("(&(distinguishedName=" + userDn + "))"); err != nil {
         return Error, err
@@ -386,7 +386,7 @@ func (client *Client) Delete(user User) (string, error) {
     }
     defer client.Close()
 
-    userDn := "CN="+user.Cn+",CN="+user.Group+","+client.BaseDN
+    userDn := "CN="+user.Cn+",OU="+user.Group+","+client.BaseDN
 
     exist, err := client.exist("(&(distinguishedName=" + userDn + "))")
     if err != nil {
